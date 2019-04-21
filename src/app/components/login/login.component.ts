@@ -1,25 +1,29 @@
 import { Component , OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select , Store } from '@ngrx/store';
 import { AppState } from '../../reducers/store';
 import { LoggedInAction } from '../../actions/auth.actions';
 import { User } from '../../model/User';
-import { LoadCourses } from '../../actions/courses.actions';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { selectAuthState } from '../../selector';
 
 
-@Component ( {
+@Component ({
   selector :'app-login' ,
   templateUrl :'./login.component.html',
   styleUrls :['./login.component.css']
-} )
+})
 export class LoginComponent implements OnInit {
   username: string = 'username';
   password: string = 'password';
+  isLoggedIn$ : Observable<boolean>;
 
-  constructor (private store: Store<AppState>, private route : Router) {
+  constructor (private store: Store<AppState> , private route: Router) {
   }
 
   ngOnInit () {
+    console.log('Came here--');
+    this.isLoggedIn$ = this.store.pipe(select(selectAuthState, auth=> auth.loggedIn));
   }
 
   login () {
@@ -29,17 +33,9 @@ export class LoginComponent implements OnInit {
         'name' :'Iftekhar'
       };
       this.store.dispatch ( new LoggedInAction ( {user} ) );
-      this.route.navigateByUrl('courses');
+      this.route.navigateByUrl ( 'courses' ).catch ( err => {
+        console.log ( err );
+      });
     }
-    const courses = [
-      {
-        'id' :1 ,
-        'name' :'Course 1'
-      }
-    ];
-    this.store.dispatch ( new LoadCourses ( {courses} ) );
-    this.route.navigateByUrl('/courses').catch(err=>{
-      console.log(err);
-    })
   }
 }

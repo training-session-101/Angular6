@@ -8,15 +8,20 @@ export interface AuthState {
 }
 
 
-export function reducer(initialState: AuthState, action): AuthState {
+export function reducer (initialState: AuthState , action): AuthState {
 
   switch (action.type) {
     case AuthAction.LoggedIn:
       return {
-        loggedIn :true,
-        user : action.payload.user
-  };
+        loggedIn :true ,
+        user :action.payload.user
+      };
+    case AuthAction.LoggedOut:
+      return {
+        loggedIn :false ,
+        user :null
+      };
     default:
-        return initialState;
+      return initialState;
   }
 }

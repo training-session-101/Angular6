@@ -1,13 +1,14 @@
 <html>
 <body>
-  <div class="box">
-    <h1>Login</h1>
+<div class="box" *ngIf="!(isLoggedIn$ | async)">
+  <h1>Login</h1>
 
-    <input [value]="username" (input)="username = $event.target.value" class="email">
+  <input [value]="username" (input)="username = $event.target.value" class="email">
 
-    <input [value]="password" (input)="password = $event.target.value" class="password">
+  <input [value]="password" (input)="password = $event.target.value" class="password">
 
-    <div class="btn" (click)="login()">Sign In</div>
-  </div>
+  <div class="btn" (click)="login()">Sign In</div>
+</div>
 </body>
 </html>
+<router-outlet></router-outlet>

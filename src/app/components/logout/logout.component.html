@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div *ngIf="(isLoggedIn$ | async)">
+  <button type="button" (click)="logout()">Logout!</button>
+</div>
+</body>
+</html>
+<router-outlet></router-outlet>
